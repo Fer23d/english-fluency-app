@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>English Fluency OS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="language-map" aria-hidden="true"></canvas>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegacao principal">
+        <div class="brand">
+          <span class="brand-mark">EF</span>
+          <div>
+            <strong>English Fluency OS</strong>
+            <small>Do zero ao C2+</small>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item is-active" data-view="dashboard" type="button">
+            <span class="nav-icon" aria-hidden="true">01</span>
+            Painel
+          </button>
+          <button class="nav-item" data-view="course" type="button">
+            <span class="nav-icon" aria-hidden="true">02</span>
+            Trilha
+          </button>
+          <button class="nav-item" data-view="theory" type="button">
+            <span class="nav-icon" aria-hidden="true">03</span>
+            Teoria
+          </button>
+          <button class="nav-item" data-view="practice" type="button">
+            <span class="nav-icon" aria-hidden="true">04</span>
+            Treino
+          </button>
+          <button class="nav-item" data-view="dictionary" type="button">
+            <span class="nav-icon" aria-hidden="true">05</span>
+            Dicionario
+          </button>
+          <button class="nav-item" data-view="review" type="button">
+            <span class="nav-icon" aria-hidden="true">06</span>
+            Revisao
+          </button>
+          <button class="nav-item" data-view="writing" type="button">
+            <span class="nav-icon" aria-hidden="true">07</span>
+            Escrita
+          </button>
+          <button class="nav-item" data-view="pronunciation" type="button">
+            <span class="nav-icon" aria-hidden="true">08</span>
+            Pronuncia
+          </button>
+          <button class="nav-item" data-view="ai" type="button">
+            <span class="nav-icon" aria-hidden="true">09</span>
+            IA Tutor
+          </button>
+        </nav>
+
+        <div class="profile-card">
+          <span>Meta diaria</span>
+          <strong id="daily-goal-label">0 / 70 XP</strong>
+          <div class="mini-progress" aria-hidden="true">
+            <span id="daily-goal-bar"></span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Curso interativo de ingles</p>
+            <h1 id="view-title">Painel de Fluencia</h1>
+          </div>
+          <div class="top-actions">
+            <button class="ghost-button" id="reset-progress" type="button">Reiniciar progresso</button>
+            <button class="primary-button" id="start-daily" type="button">Comecar treino</button>
+          </div>
+        </header>
+
+        <section class="view is-active" id="dashboard-view" data-view-panel="dashboard">
+          <div class="dashboard-grid">
+            <section class="hero-panel">
+              <div class="hero-copy">
+                <p class="eyebrow">Seu cockpit</p>
+                <h2>Aprenda ingles com teoria, treino ativo, revisao e vocabulario pesquisavel.</h2>
+                <p>
+                  A trilha passa por fundamentos, conversacao, gramatica, escrita, negocios, sotaques,
+                  idioms, phrasal verbs e leitura C2. O app salva seu progresso neste navegador.
+                </p>
+                <div class="hero-actions">
+                  <button class="primary-button" data-jump="course" type="button">Ver trilha</button>
+                  <button class="secondary-button" data-jump="dictionary" type="button">Buscar palavra</button>
+                </div>
+              </div>
+              <div class="radar-visual" aria-label="Mapa visual de habilidades">
+                <div class="radar-core">
+                  <span>CEFR</span>
+                  <strong id="current-rank">A0</strong>
+                </div>
+                <span class="radar-line line-a"></span>
+                <span class="radar-line line-b"></span>
+                <span class="radar-line line-c"></span>
+              </div>
+            </section>
+
+            <section class="stat-panel">
+              <span>XP total</span>
+              <strong id="total-xp">0</strong>
+              <small>Ganhe XP concluindo atividades.</small>
+            </section>
+            <section class="stat-panel accent-green">
+              <span>Unidades na trilha</span>
+              <strong id="total-lessons">0</strong>
+              <small>Curriculo longo, do zero ao C2+.</small>
+            </section>
+            <section class="stat-panel">
+              <span>Atividades por unidade</span>
+              <strong id="min-exercises">15+</strong>
+              <small>Audio, traducao, escrita, ordem e lacunas.</small>
+            </section>
+            <section class="stat-panel accent-green">
+              <span>Licoes concluidas</span>
+              <strong id="completed-lessons">0</strong>
+              <small>Da base ao ultra avancado.</small>
+            </section>
+            <section class="stat-panel accent-coral">
+              <span>Dicionario ativo</span>
+              <strong id="dictionary-size">0</strong>
+              <small><span id="mastered-count">0</span> palavras dominadas.</small>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Missao de hoje</p>
+                <h2 id="daily-title">Carregando...</h2>
+              </div>
+              <button class="text-button" data-jump="practice" type="button">Abrir treino</button>
+            </div>
+            <div class="mission-strip" id="daily-mission"></div>
+          </section>
+
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Mapa rapido</p>
+                <h2>O que voce vai dominar</h2>
+              </div>
+            </div>
+            <div class="skill-grid" id="skill-grid"></div>
+          </section>
+        </section>
+
+        <section class="view" id="course-view" data-view-panel="course">
+          <div class="course-layout">
+            <section class="panel lesson-list-panel">
+              <div class="section-heading">
+              <div>
+                <p class="eyebrow">Trilha completa</p>
+                <h2>Do A0 ao C2+ com mais de 100 unidades</h2>
+              </div>
+              <div class="inline-controls">
+                <input id="course-search" type="search" placeholder="Pesquisar na trilha: listening, business, idioms..." />
+                <select id="level-filter" aria-label="Filtrar nivel">
+                  <option value="all">Todos os niveis</option>
+                </select>
+              </div>
+            </div>
+              <div class="module-list" id="module-list"></div>
+            </section>
+
+            <section class="panel lesson-detail-panel" id="lesson-detail"></section>
+          </div>
+        </section>
+
+        <section class="view" id="theory-view" data-view-panel="theory">
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Teoria guiada</p>
+                <h2>Explicacoes claras, exemplos e armadilhas comuns</h2>
+              </div>
+              <input id="theory-search" type="search" placeholder="Pesquisar: past perfect, phrasal verbs, articles..." />
+            </div>
+            <div class="theory-grid" id="theory-grid"></div>
+          </section>
+        </section>
+
+        <section class="view" id="practice-view" data-view-panel="practice">
+          <section class="panel practice-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Treino ativo</p>
+                <h2>Atividades adaptadas ao seu modulo atual</h2>
+              </div>
+              <div class="inline-controls">
+                <select id="practice-lesson" aria-label="Escolher licao"></select>
+                <button class="secondary-button" id="new-exercise" type="button">Nova atividade</button>
+              </div>
+            </div>
+            <div id="exercise-stage" class="exercise-stage"></div>
+          </section>
+        </section>
+
+        <section class="view" id="dictionary-view" data-view-panel="dictionary">
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Busca de palavras</p>
+                <h2>Dicionario, exemplos e frases prontas</h2>
+              </div>
+              <div class="search-box">
+                <input id="dictionary-input" type="search" placeholder="Digite em ingles: achieve, although, take off..." />
+                <button class="primary-button" id="dictionary-search" type="button">Buscar</button>
+              </div>
+            </div>
+            <div class="dictionary-toolbar">
+              <button class="chip is-active" data-dict-filter="all" type="button">Tudo</button>
+              <button class="chip" data-dict-filter="verbs" type="button">Verbos</button>
+              <button class="chip" data-dict-filter="phrasal" type="button">Phrasal verbs</button>
+              <button class="chip" data-dict-filter="idioms" type="button">Idioms</button>
+              <button class="chip" data-dict-filter="academic" type="button">Academico</button>
+              <button class="chip" data-dict-filter="business" type="button">Negocios</button>
+            </div>
+            <div class="dictionary-stats" id="dictionary-stats"></div>
+            <div id="dictionary-results" class="dictionary-results"></div>
+          </section>
+        </section>
+
+        <section class="view" id="review-view" data-view-panel="review">
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Revisao espacada</p>
+                <h2>Flashcards das palavras que voce marcou ou errou</h2>
+              </div>
+              <button class="secondary-button" id="seed-review" type="button">Adicionar palavras essenciais</button>
+            </div>
+            <div class="review-area" id="review-area"></div>
+          </section>
+        </section>
+
+        <section class="view" id="writing-view" data-view-panel="writing">
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Laboratorio de escrita</p>
+                <h2>Escreva respostas e receba uma analise imediata</h2>
+              </div>
+              <button class="secondary-button" id="new-writing-prompt" type="button">Novo tema</button>
+            </div>
+            <div class="writing-lab">
+              <div class="prompt-card" id="writing-prompt"></div>
+              <textarea id="writing-answer" rows="10" placeholder="Write your answer in English here..."></textarea>
+              <div class="inline-controls">
+                <button class="primary-button" id="analyze-writing" type="button">Analisar texto</button>
+                <button class="ghost-button" id="clear-writing" type="button">Limpar</button>
+              </div>
+              <div class="feedback-panel" id="writing-feedback"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="pronunciation-view" data-view-panel="pronunciation">
+          <section class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Pronuncia e escuta</p>
+                <h2>Ouvir, repetir e comparar</h2>
+              </div>
+              <button class="secondary-button" id="new-speech-phrase" type="button">Nova frase</button>
+            </div>
+            <div class="speech-lab">
+              <div class="speech-card" id="speech-card"></div>
+              <div class="inline-controls">
+                <button class="primary-button" id="play-phrase" type="button">Ouvir</button>
+                <button class="secondary-button" id="record-phrase" type="button">Falar</button>
+              </div>
+              <div class="feedback-panel" id="speech-feedback">
+                Use o botao ouvir para treinar ritmo e entonacao. Se seu navegador permitir, use falar para comparar sua resposta.
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="ai-view" data-view-panel="ai">
+          <section class="panel ai-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">IA local gratuita</p>
+                <h2>Tutor de ingles offline, focado em fluencia</h2>
+              </div>
+              <div class="inline-controls">
+                <button class="secondary-button" id="ai-suggest" type="button">Me desafie</button>
+                <button class="ghost-button" id="ai-clear" type="button">Limpar chat</button>
+              </div>
+            </div>
+            <div class="ai-modebar" aria-label="Modo da IA">
+              <button class="chip is-active" data-ai-mode="auto" type="button">Auto</button>
+              <button class="chip" data-ai-mode="explain" type="button">Explicar</button>
+              <button class="chip" data-ai-mode="correct" type="button">Corrigir</button>
+              <button class="chip" data-ai-mode="quiz" type="button">Quiz</button>
+              <button class="chip" data-ai-mode="plan" type="button">Plano</button>
+              <button class="chip" data-ai-mode="chat" type="button">Conversa</button>
+            </div>
+            <div class="ai-layout">
+              <div class="ai-chat" id="ai-chat" aria-live="polite"></div>
+              <aside class="ai-side">
+                <div class="ai-orb-card">
+                  <div class="ai-orb" aria-hidden="true"></div>
+                  <div>
+                    <span>Motor local</span>
+                    <strong id="ai-brain-score">Lexicon Core</strong>
+                  </div>
+                </div>
+                <div class="prompt-card">
+                  <h3>Prompts rapidos</h3>
+                  <button class="chip ai-prompt" type="button">Explique although com exemplos B2</button>
+                  <button class="chip ai-prompt" type="button">Crie um quiz C1 com respostas</button>
+                  <button class="chip ai-prompt" type="button">Corrija: I have 25 years and I am agree</button>
+                  <button class="chip ai-prompt" type="button">Simule uma conversa de entrevista</button>
+                  <button class="chip ai-prompt" type="button">Plano de 30 dias para fluencia</button>
+                </div>
+                <div class="prompt-card" id="ai-insight"></div>
+                <div class="prompt-card" id="ai-memory"></div>
+              </aside>
+            </div>
+            <div class="ai-input-row">
+              <textarea id="ai-input" rows="3" placeholder="Ex.: corrija minha frase, explique uma palavra, crie quiz B2, simule conversa, monte plano de 30 dias..."></textarea>
+              <button class="primary-button" id="ai-send" type="button">Enviar</button>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
