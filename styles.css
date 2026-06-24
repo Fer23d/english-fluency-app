@@ -74,6 +74,7 @@ button {
 }
 
 .site-credit {
+  grid-column: 1 / -1;
   display: grid;
   gap: 4px;
   justify-items: center;
