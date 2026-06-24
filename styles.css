@@ -74,10 +74,10 @@ button {
 }
 
 .site-credit {
-  grid-column: 1 / -1;
   display: grid;
   gap: 4px;
   justify-items: center;
+  width: 100%;
   padding: 18px 24px 30px;
   color: var(--muted);
   text-align: center;
